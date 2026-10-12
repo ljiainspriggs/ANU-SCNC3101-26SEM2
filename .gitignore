@@ -6,6 +6,7 @@
 0_inputdata_CDSxmatch/Yu2018_T1.dat 
 0_inputdata_CDSxmatch/Zinn2022_cdsxmatch.csv 
 
-1_inputdata_clean/yu2018_clean.csv
+1_inputdata_clean/*.csv
 
-debugging_ages/
+1_duplicatestars/*.csv
+
