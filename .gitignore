@@ -8,5 +8,5 @@
 
 1_inputdata_clean/*.csv
 
-1_duplicatestars/*.csv
+2_duplicatestars/*.csv
 
