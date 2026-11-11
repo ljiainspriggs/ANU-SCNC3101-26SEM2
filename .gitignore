@@ -1,10 +1,9 @@
-0_inputdata_CDSxmatch/Hatt2023_cdsxmatch.csv 
-0_inputdata_CDSxmatch/Sree2026_cdsxmatch.csv 
-0_inputdata_CDSxmatch/Theo2026_cdsxmatch.csv 
-0_inputdata_CDSxmatch/Will2026_cdsxmatch.csv 
-0_inputdata_CDSxmatch/Yu2018_cdsxmatch.csv 
-0_inputdata_CDSxmatch/Yu2018_T1.dat 
-0_inputdata_CDSxmatch/Zinn2022_cdsxmatch.csv 
+
+0_inputdata_CDSxmatch/*.csv
+0_inputdata_CDSxmatch/*.dat 
+
+0_inputdata_spectroscopic/gaia_params.csv
+0_inputdata_spectroscopic/*.fits
 
 1_inputdata_clean/*.csv
 
