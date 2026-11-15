@@ -1,36 +1,26 @@
 
-0_inputdata_CDSxmatch/*.csv
-0_inputdata_CDSxmatch/*.dat 
-
-0_inputdata_spectroscopic/gaia_params.csv
-0_inputdata_spectroscopic/*.fits
-
-1_inputdata_clean/*.csv
-
-2_duplicatestars/*.csv
-
-3_spectroscopic_xmatch/GSPSPEC_compute_luminosity_data.csv
-3_spectroscopic_xmatch/test_compute_luminosity_data.csv
-
-4_ages/*.log
-4_ages/*.png
-4_ages/*.xml
-
-old_results/
-
+# large folders
 BASTA/
 
-# Python cache
+# python cache
 __pycache__/
 *.pyc
 
-# Data catalogues & model outputs
+# input catalogues and model outputs
 *.csv
+*.png
+*.dat
+*.fits
 *.ascii
 *.xml
 *.log
 *.err
 *.warn
 
+# exceptions
 !3_spectroscopic_xmatch/GSPSPEC_input_catalogue.csv
 !4_ages/GSPSPEC_dnu_output_FIRST2923.csv
+!4_ages/GSPSPEC_dnu_output.csv
+!figures/*.png
+!old_results/*.png
+
