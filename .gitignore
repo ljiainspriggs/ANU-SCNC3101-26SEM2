@@ -9,3 +9,28 @@
 
 2_duplicatestars/*.csv
 
+3_spectroscopic_xmatch/GSPSPEC_compute_luminosity_data.csv
+3_spectroscopic_xmatch/test_compute_luminosity_data.csv
+
+4_ages/*.log
+4_ages/*.png
+4_ages/*.xml
+
+old_results/
+
+BASTA/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Data catalogues & model outputs
+*.csv
+*.ascii
+*.xml
+*.log
+*.err
+*.warn
+
+!3_spectroscopic_xmatch/GSPSPEC_input_catalogue.csv
+!4_ages/GSPSPEC_dnu_output_FIRST2923.csv

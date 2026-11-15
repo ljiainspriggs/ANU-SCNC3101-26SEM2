@@ -16,6 +16,8 @@ import gdr3bcg.bcg as bcg
 
 ### Compute G-band Extinction ###
 
+# no uncertainties for A_G at this stage.
+
 model_library = PrecomputedModel()
 r = model_library.find(passband="GAIA_GAIA3.G")
 model = model_library.load_model(r[2], passband="GAIA_GAIA3.G") # r[2] corresponds to Fitzpatrick (1999)
@@ -46,6 +48,8 @@ def compute_ag(a0_array, teff_array):
 
 ### Compute G-band Bolometric Correction ###
 
+# no uncertainties for BC at this stage
+
 table = bcg.BolometryTable()
 
 def compute_bc(teff_array, logg_array, feh_array):
@@ -69,53 +73,60 @@ def compute_bc(teff_array, logg_array, feh_array):
 
 # m_G,corr = m_G,obs - A_G
 
-def corr_mag(mg_array, ag_array):
+def corr_mag(mg_array, e_mg_array, ag_array):
     mcorr_array = np.array(mg_array) - np.array(ag_array)
-    return np.array(mcorr_array)
+    return np.array(mcorr_array), np.array(e_mg_array)
 
 ### Derive Absolute Magnitudes ###
 
 # M_G = m_G - 5*log10(d / 10pc)
 
-def abs_mag(mcorr_array, dist_array):
+def abs_mag(mcorr_array, e_mcorr_array, dist_array, e_dist_array):
     absmag_array = np.array(mcorr_array) - 5*np.log10(np.array(dist_array) / 10) # dist_array in pc
-    return np.array(absmag_array)
+    e_absmag_array = ((np.array(e_mcorr_array))**2 + ((5 / np.log(10)) * (np.array(e_dist_array) / np.array(dist_array)))**2)**(1/2)
+    return np.array(absmag_array), np.array(e_absmag_array)
 
 ### Apply Bolometric Correction ###
 
 # M_bol = M_G + BC_G
 
-def m_bol(absmag_array, bc_array):
+def m_bol(absmag_array, e_absmag_array, bc_array):
     mbol_array = np.array(absmag_array) + np.array(bc_array)
-    return np.array(mbol_array)
+    return np.array(mbol_array), np.array(e_absmag_array)
 
 ### Compute Luminosity ###
 
 # L = 10^(0.4*(M_sun,bol - M_bol))*L_sun, for gdr3bcg use M_sun,bol = +4.74 = +0.08 + +4.66
 
-def compute_lum(a0_array, teff_array, mg_array, dist_array, logg_array, feh_array):
+def compute_lum(name_str, a0_array, teff_array, mg_array, e_mg_array, dist_array, e_dist_array, logg_array, feh_array):
     ag_array = compute_ag(a0_array, teff_array) # extinction
-    mcorr_array = corr_mag(mg_array, ag_array) # corrected obs mag
-    absmag_array = abs_mag(mcorr_array, dist_array) # abs mag
+    mcorr_array, e_mcorr_array = corr_mag(mg_array, e_mg_array, ag_array) # corrected obs mag
+    absmag_array, e_absmag_array = abs_mag(mcorr_array, e_mcorr_array, dist_array, e_dist_array) # abs mag
     bc_array = compute_bc(teff_array, logg_array, feh_array) # bol correction
-    mbol_array = m_bol(absmag_array, bc_array) # bol mag
+    mbol_array, e_mbol_array = m_bol(absmag_array, e_absmag_array, bc_array) # bol mag
     lum_array = 10**(0.4*(4.74 - mbol_array)) # lum in L_sun
+    e_lum_array = np.array(lum_array) * (0.4 * np.log(10)) * e_mbol_array
     df = pd.DataFrame({
         "A_0": np.array(a0_array),
         "Teff": np.array(teff_array),
         "A_G": np.array(ag_array),
         "m_G": np.array(mg_array),
-        "M_corr": np.array(mcorr_array),
+        "m_corr": np.array(mcorr_array),
+        "e_m_corr": np.array(e_mcorr_array),
         "dist": np.array(dist_array),
+        "e_dist": np.array(e_dist_array),
         "M_G": np.array(absmag_array),
+        "e_M_G": np.array(e_absmag_array),
         "logg": np.array(logg_array),
         "FeH": np.array(feh_array),
         "BC": np.array(bc_array),
         "M_bol": np.array(mbol_array),
-        "lum": np.array(lum_array)
+        "e_M_bol": np.array(e_mbol_array),
+        "L": np.array(lum_array),
+        "e_L": np.array(e_lum_array)
     })
-    df.to_csv("./compute_luminosity_data.csv", index=False)
-    return lum_array
+    df.to_csv(f"./{name_str}_compute_luminosity_data.csv", index=False)
+    return lum_array, e_lum_array
 
 
 ## testing ##
@@ -124,10 +135,12 @@ a0 = [1, 2]
 logg = [1.2, 1.4]
 feh = [-0.8, 0]
 gmag = [13, 12]
+e_gmag = [0.4, 0.2]
 dist = [400, 500]
+e_dist = [10, 20]
 print(compute_ag(a0, teff))
 print(compute_bc(teff, logg, feh))
-l = compute_lum(a0, teff, gmag, dist, logg, feh)
+l = compute_lum("test", a0, teff, gmag, e_gmag, dist, e_dist, logg, feh)
 print(l)
 
 
