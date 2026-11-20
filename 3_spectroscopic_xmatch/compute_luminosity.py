@@ -130,18 +130,18 @@ def compute_lum(name_str, a0_array, teff_array, mg_array, e_mg_array, dist_array
 
 
 ## testing ##
-teff = [5000, 5500]
-a0 = [1, 2]
-logg = [1.2, 1.4]
-feh = [-0.8, 0]
-gmag = [13, 12]
-e_gmag = [0.4, 0.2]
-dist = [400, 500]
-e_dist = [10, 20]
-print(compute_ag(a0, teff))
-print(compute_bc(teff, logg, feh))
-l = compute_lum("test", a0, teff, gmag, e_gmag, dist, e_dist, logg, feh)
-print(l)
+# teff = [5000, 5500]
+# a0 = [1, 2]
+# logg = [1.2, 1.4]
+# feh = [-0.8, 0]
+# gmag = [13, 12]
+# e_gmag = [0.4, 0.2]
+# dist = [400, 500]
+# e_dist = [10, 20]
+# print(compute_ag(a0, teff))
+# print(compute_bc(teff, logg, feh))
+# l = compute_lum("test", a0, teff, gmag, e_gmag, dist, e_dist, logg, feh)
+# print(l)
 
 
 

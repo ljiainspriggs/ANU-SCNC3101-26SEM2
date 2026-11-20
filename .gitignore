@@ -23,4 +23,5 @@ __pycache__/
 !4_ages/GSPSPEC_dnu_output.csv
 !figures/*.png
 !old_results/*.png
+!TESTING/figures/*.png
 

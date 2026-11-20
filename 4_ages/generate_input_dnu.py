@@ -23,7 +23,7 @@ def define_input(define_io, define_fit, define_output, define_plots, define_intp
     # ==================================================================================
     # Name of the XML input file to produce
     # --> Use as input: BASTArun input_myfit.xml
-    xmlfilename = "input_dnu.xml"
+    xmlfilename = "input_dnu_compareAsf.xml"
 
     # The path to the grid to be used by BASTA for the fitting.
     # --> If using isochrones, remember to also specify physics settings in BLOCK 3c
@@ -112,7 +112,7 @@ def define_input(define_io, define_fit, define_output, define_plots, define_intp
     #     (dnu). The one provided must match the one you add to fitting parameters in
     #     the next block. If present in the grid, "dnufit" is the most reliable one.
     #     The full list is available in constants.py
-    define_fit["fitparams"] = ("numax", "dnuSer", "Teff", "FeH", "logg")
+    define_fit["fitparams"] = ("numax", "dnuAsf", "Teff", "FeH", "logg")
 
     # ------------------------------------------------------------
     # BLOCK 2a: Fitting control, priors
@@ -340,12 +340,12 @@ def define_input(define_io, define_fit, define_output, define_plots, define_intp
     # --> The names must match entries in the parameter list (basta/constants.py)
     # --> A reasonable choice is to (as a minimum) output the parameters used in the fit
     # --> If you want to predict distance, add the special keyword "distance".
-    define_output["outparams"] = ("numax", "dnuSer", "Teff", "FeH", "logg", "radPhot", "massfin", "age")
+    define_output["outparams"] = ("numax", "dnuAsf", "Teff", "FeH", "logg", "radPhot", "massfin", "age")
 
     # Name of the output file containing the results of the fit in ascii format.
     # --> A version in xml-format will be automatically created
     # --> The same name will be used for the {.err, .warn} files
-    define_output["outputfile"] = "output_dnu.ascii"
+    define_output["outputfile"] = "output_dnu_compareAsf.ascii"
 
     # A dump of the statistics (chi2, logPDF) for all models in the grids can be saved
     # to a .json file. One file is produced per star.
@@ -379,7 +379,7 @@ def define_input(define_io, define_fit, define_output, define_plots, define_intp
     # BASTA can produce a Kiel diagram (Teff vs logg) with the observations and the
     # model points from the grid. The latter will be color coded based on the fitting
     # parameters and their uncertainties/constraints.
-    define_plots["kielplots"] = True
+    define_plots["kielplots"] = False
 
     # When fitting frequencies or frequency ratios, BASTA can generate echelle diagrams
     # and plots of the surface independent quantities (ratios, epsilon differences).
@@ -401,7 +401,7 @@ def define_input(define_io, define_fit, define_output, define_plots, define_intp
     # However, depending on the preferred post-processing procedure of the user,
     # it can be beneficial to include in the plots itself, which can be turned
     # on using this key.
-    define_plots["nameinplot"] = True
+    define_plots["nameinplot"] = False
 
     # ==================================================================================
     # BLOCK 5: Interpolation
@@ -485,7 +485,7 @@ def define_input(define_io, define_fit, define_output, define_plots, define_intp
         # - "value": The required resolution in the specified parameter. For "dnufit",
         #            the frequency resolution between two consecutive models will be
         #            this value (in microHz) or better. Note that "dnufit" is *not*
-        #            available for ishcornes (use e.g. "dnuSer" instead).
+        #            available for ishcornes (use e.g. "dnuscal" instead).
         #
         # Additionally, it is possible to specify the following:
         # - "baseparam": Parameter forming the base of the interpolation. Two cases:
