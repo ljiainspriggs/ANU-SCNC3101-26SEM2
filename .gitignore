@@ -8,6 +8,7 @@ __pycache__/
 
 # input catalogues and model outputs
 *.csv
+*.tsv
 *.png
 *.dat
 *.fits
