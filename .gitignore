@@ -26,3 +26,6 @@ __pycache__/
 !old_results/*.png
 !TESTING/figures/*.png
 
+# to remove cached/committed file:
+# git rm --cached path/to/file
+
